@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">FirebaseAuth</string>
     <string name="create_account">Crear Cuenta</string>
-    <string name="user">Usuario</string>
+    <string name="email">Email</string>
     <string name="password">Contraseña</string>
     <string name="recovery_password">Olvidé mi Contraseña</string>
     <string name="login">Ingresar</string>
+    <string name="msg_user">Ingrese Usuario</string>
+    <string name="msg_password">Ingrese Password</string>
 </resources>

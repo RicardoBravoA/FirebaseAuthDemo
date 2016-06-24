@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private void initCalligraphy() {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("font/font.otf")
+                .setDefaultFontPath("font/font.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
