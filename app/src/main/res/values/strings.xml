@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">FirebaseAuth</string>
     <string name="create_account">Crear Cuenta</string>
+    <string name="init_session">Iniciar Sesión</string>
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
     <string name="recovery_password">Olvidé mi Contraseña</string>
     <string name="login">Ingresar</string>
-    <string name="msg_user">Ingrese Usuario</string>
-    <string name="msg_password">Ingrese Password</string>
+    <string name="register">Registrar</string>
+    <string name="msg_email">Ingrese Email</string>
+    <string name="incorrect_email">Email incorrecto</string>
+    <string name="msg_password">Ingrese Contraseña</string>
+    <string name="min_password">Contraseña mínima de 6 caracteres</string>
+    <string name="msg_invalid_login">Email y/o Contraseña incorrectos</string>
+    <string name="msg_invalid_register">Error al registar</string>
+    <string name="send">Enviar</string>
 </resources>

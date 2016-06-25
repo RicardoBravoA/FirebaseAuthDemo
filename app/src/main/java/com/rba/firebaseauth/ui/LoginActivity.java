@@ -1,15 +1,18 @@
 package com.rba.firebaseauth.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,9 +20,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rba.firebaseauth.R;
 import com.rba.firebaseauth.ui.base.BaseActivity;
+import com.rba.firebaseauth.util.Util;
+
+/**
+ * Created by Ricardo Bravo on 23/06/16.
+ */
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
+    private CoordinatorLayout clGeneral;
     private TextInputLayout tilEmail, tilPassword;
     private TextInputEditText tieEmail, tiePassword;
     private AppCompatButton btnLogin;
@@ -38,7 +47,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void initUI(){
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        Log.i("x- user", firebaseAuth.getCurrentUser().getDisplayName()+" - "+firebaseAuth.getCurrentUser().getEmail());
+
+        if (firebaseAuth.getCurrentUser() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+
         tilEmail = (TextInputLayout)findViewById(R.id.tilEmail);
+        clGeneral = (CoordinatorLayout)findViewById(R.id.clGeneral);
         tilPassword = (TextInputLayout)findViewById(R.id.tilPassword);
         tieEmail = (TextInputEditText)findViewById(R.id.tieEmail);
         tiePassword = (TextInputEditText)findViewById(R.id.tiePassword);
@@ -50,22 +68,50 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         lblRecoveryPassword.setOnClickListener(this);
         lblCreateAccount.setOnClickListener(this);
 
+        tieEmail.addTextChangedListener(new CustomTextWatcher(tieEmail));
+        tiePassword.addTextChangedListener(new CustomTextWatcher(tiePassword));
+
     }
 
-    private boolean validForm(){
+    public boolean validEmail(){
+
         email = tieEmail.getText().toString().trim();
-        password = tiePassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.msg_user),
-                    Toast.LENGTH_SHORT).show();
+            tilEmail.setError(Util.addCustomFont(this, getString(R.string.msg_email)));
+            Util.requestFocus(this, tieEmail);
             return false;
         }
 
-        if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.msg_password), Toast.LENGTH_SHORT).show();
+        Log.i("x- msge", ""+Util.validEmail(email));
+        if(Util.validEmail(email)){
+            tilEmail.setErrorEnabled(false);
+        }else{
+            tilEmail.setError(Util.addCustomFont(this, getString(R.string.incorrect_email)));
+            Util.requestFocus(this, tieEmail);
             return false;
         }
+
+        return true;
+    }
+
+    private boolean validPassword(){
+        password = tiePassword.getText().toString().trim();
+
+        if(TextUtils.isEmpty(password)) {
+            tilPassword.setError(Util.addCustomFont(this, getString(R.string.msg_password)));
+            Util.requestFocus(this, tiePassword);
+            return false;
+        }
+
+        if(password.length()<6){
+            tilPassword.setError(Util.addCustomFont(this, getString(R.string.min_password)));
+            Util.requestFocus(this, tiePassword);
+            return false;
+        }else{
+            tilPassword.setErrorEnabled(false);
+        }
+
         return true;
     }
 
@@ -76,30 +122,64 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.btnLogin:
                 Log.i("x- msge", "login");
 
-                if(validForm()){
-                    firebaseAuth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                    if (!task.isSuccessful()) {
-                                        Log.i("x- msge", "false");
-                                    } else {
-                                        Log.i("x- msge", "true");
-                                    }
-                                }
-                            });
+                if(!validEmail()){
+                    return;
                 }
+
+                if(!validPassword()){
+                    return;
+                }
+
+                firebaseAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                if (task.isSuccessful()) {
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    finish();
+                                } else {
+                                    Util.showSnackBar(clGeneral, getString(R.string.msg_invalid_login));
+                                }
+                            }
+                        });
 
                 break;
             case R.id.lblCreateAccount:
-                Log.i("x- msge", "account");
+                startActivity(new Intent(this, CreateAccountActivity.class));
+                finish();
                 break;
             case R.id.lblRecoveryPassword:
                 Log.i("x- msge", "password");
                 break;
             default:
                 break;
+        }
+    }
+
+    private class CustomTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private CustomTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            switch (view.getId()) {
+                case R.id.tieEmail:
+                    validEmail();
+                    break;
+                case R.id.tiePassword:
+                    validPassword();
+                    break;
+            }
         }
     }
 

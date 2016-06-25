@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/clGeneral"
     android:fitsSystemWindows="true"
     android:background="@drawable/ic_splash"
     tools:context=".ui.LoginActivity">
