@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.rba.firebaseauth.R;
 import com.rba.firebaseauth.util.Util;
 
@@ -31,22 +32,23 @@ import com.rba.firebaseauth.util.Util;
  * Created by Ricardo Bravo on 24/06/16.
  */
 
-public class RecoveryDialogFragment extends DialogFragment implements View.OnClickListener{
+public class ChangePasswordDialogFragment extends DialogFragment implements View.OnClickListener{
 
     private AppCompatButton btnSend;
-    private AppCompatEditText txtEmail;
-    private TextInputLayout tilEmail;
+    private AppCompatEditText txtPassword;
+    private TextInputLayout tilPassword;
     private FirebaseAuth firebaseAuth;
-    private String email;
+    private FirebaseUser firebaseUser;
+    private String password;
 
-    public RecoveryDialogFragment(){
+    public ChangePasswordDialogFragment(){
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.recovery_password, container, false);
+        return inflater.inflate(R.layout.change_password, container, false);
     }
 
     @Override
@@ -54,14 +56,15 @@ public class RecoveryDialogFragment extends DialogFragment implements View.OnCli
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         btnSend = (AppCompatButton) view.findViewById(R.id.btnSend);
-        txtEmail = (AppCompatEditText) view.findViewById(R.id.txtEmail);
-        tilEmail = (TextInputLayout) view.findViewById(R.id.tilEmail);
-        txtEmail.addTextChangedListener(new CustomTextWatcher(txtEmail));
+        txtPassword = (AppCompatEditText) view.findViewById(R.id.txtPassword);
+        tilPassword = (TextInputLayout) view.findViewById(R.id.tilPassword);
+        txtPassword.addTextChangedListener(new CustomTextWatcher(txtPassword));
 
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         btnSend.setOnClickListener(this);
-        txtEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        txtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_SEND){
@@ -79,20 +82,21 @@ public class RecoveryDialogFragment extends DialogFragment implements View.OnCli
         switch (v.getId()){
             case R.id.btnSend:
 
-                if(!validEmail()){
+                if(!validPassword()){
                     return;
                 }
 
-                firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                firebaseUser.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(getActivity(), getString(R.string.msg_email_sent),
+                            Toast.makeText(getActivity(), getString(R.string.success_change_password),
                                     Toast.LENGTH_SHORT).show();
                             getDialog().dismiss();
+                            firebaseAuth.signOut();
                         }else{
-                            Util.requestFocus(getActivity(), txtEmail);
-                            Toast.makeText(getActivity(), getString(R.string.msg_error_email),
+                            Util.requestFocus(getActivity(), txtPassword);
+                            Toast.makeText(getActivity(), getString(R.string.error_change_password),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -104,23 +108,21 @@ public class RecoveryDialogFragment extends DialogFragment implements View.OnCli
         }
     }
 
-    public boolean validEmail(){
+    private boolean validPassword(){
+        password = txtPassword.getText().toString().trim();
 
-        email = txtEmail.getText().toString().trim();
-
-        if (TextUtils.isEmpty(email)) {
-            tilEmail.setError(Util.addCustomFont(getActivity(), getString(R.string.msg_email)));
-            Util.requestFocus(getActivity(), txtEmail);
+        if(TextUtils.isEmpty(password)) {
+            tilPassword.setError(Util.addCustomFont(getActivity(), getString(R.string.msg_password)));
+            Util.requestFocus(getActivity(), txtPassword);
             return false;
         }
 
-        Log.i("x- msge", ""+Util.validEmail(email));
-        if(Util.validEmail(email)){
-            tilEmail.setErrorEnabled(false);
-        }else{
-            tilEmail.setError(Util.addCustomFont(getActivity(), getString(R.string.incorrect_email)));
-            Util.requestFocus(getActivity(), txtEmail);
+        if(password.length()<6){
+            tilPassword.setError(Util.addCustomFont(getActivity(), getString(R.string.min_password)));
+            Util.requestFocus(getActivity(), txtPassword);
             return false;
+        }else{
+            tilPassword.setErrorEnabled(false);
         }
 
         return true;
@@ -142,8 +144,8 @@ public class RecoveryDialogFragment extends DialogFragment implements View.OnCli
 
         public void afterTextChanged(Editable editable) {
             switch (view.getId()) {
-                case R.id.txtEmail:
-                    validEmail();
+                case R.id.txtPassword:
+                    validPassword();
                     break;
             }
         }

@@ -14,4 +14,21 @@
     <string name="msg_invalid_login">Email y/o Contraseña incorrectos</string>
     <string name="msg_invalid_register">Error al registar</string>
     <string name="send">Enviar</string>
+    <string name="change">Cambiar</string>
+    <string name="msg_error_email">Ocurrió un error</string>
+    <string name="msg_email_sent">Revise su correo</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_change_password">Cambiar Contraseña</string>
+    <string name="success_change_password">Contraseña cambiada correctament</string>
+    <string name="error_change_password">Error al Contraseña</string>
+    <string name="send_email">Enviar email</string>
+    <string name="menu_logout">Salir</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

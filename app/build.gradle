@@ -35,4 +35,5 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.firebase:firebase-client-android:2.3.1'
+    compile 'com.android.support:support-v4:23.4.0'
 }

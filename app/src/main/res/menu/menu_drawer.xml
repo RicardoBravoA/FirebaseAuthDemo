@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/opHome"
+            android:icon="@drawable/ic_home_plumb"
+            android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/opChangePassword"
+            android:icon="@drawable/ic_verified"
+            android:title="@string/menu_change_password" />
+
+        <item
+            android:id="@+id/opLogout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/menu_logout" />
+    </group>
+
+</menu>

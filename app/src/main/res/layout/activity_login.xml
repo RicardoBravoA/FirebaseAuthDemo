@@ -38,6 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
                     android:text="ricardobravo@outlook.com"
                     android:singleLine="true"
                     android:hint="@string/email"/>
@@ -57,7 +58,7 @@
                     android:inputType="textPassword"
                     android:singleLine="true"
                     android:imeOptions="actionGo"
-                    android:text="1234556789"
+                    android:text="123456789"
                     android:hint="@string/password"/>
 
             </android.support.design.widget.TextInputLayout>

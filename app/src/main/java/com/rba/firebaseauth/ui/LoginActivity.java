@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.rba.firebaseauth.R;
 import com.rba.firebaseauth.ui.base.BaseActivity;
 import com.rba.firebaseauth.util.Util;
+import com.rba.firebaseauth.view.fragment.RecoveryDialogFragment;
 
 /**
  * Created by Ricardo Bravo on 23/06/16.
@@ -47,8 +49,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void initUI(){
 
         firebaseAuth = FirebaseAuth.getInstance();
-
-        Log.i("x- user", firebaseAuth.getCurrentUser().getDisplayName()+" - "+firebaseAuth.getCurrentUser().getEmail());
 
         if (firebaseAuth.getCurrentUser() != null) {
             startActivity(new Intent(this, MainActivity.class));
@@ -150,7 +150,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.lblRecoveryPassword:
-                Log.i("x- msge", "password");
+                FragmentManager fm = this.getSupportFragmentManager();
+                RecoveryDialogFragment recoveryDialogFragment = new RecoveryDialogFragment();
+                recoveryDialogFragment.show(fm, "layout_filter_checkbox_dialog");
                 break;
             default:
                 break;
