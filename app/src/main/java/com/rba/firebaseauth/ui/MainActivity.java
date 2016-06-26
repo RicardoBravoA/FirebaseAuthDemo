@@ -11,7 +11,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,6 +33,7 @@ public class MainActivity extends BaseActivity
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private TextView lblUserName, lblUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +53,31 @@ public class MainActivity extends BaseActivity
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
+                firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (firebaseUser == null) {
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
+                }else{
+
+                    Log.i("x- user", firebaseUser.getEmail()+" - "+firebaseUser.getDisplayName());
+                    String name = firebaseUser.getDisplayName();
+                    String email = firebaseUser.getEmail();
+
+
+                    View headerView =  navigationView.getHeaderView(0);
+                    lblUserName = (TextView) headerView.findViewById(R.id.lblUserName);
+                    lblUserEmail = (TextView) headerView.findViewById(R.id.lblUserEmail);
+
+                    if(name!=null){
+                        lblUserName.setText(name);
+                    }
+
+                    if(email!=null){
+                        lblUserEmail.setText(email);
+                    }
                 }
             }
         };
