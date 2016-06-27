@@ -11,7 +11,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -20,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.rba.firebaseauth.R;
 import com.rba.firebaseauth.ui.base.BaseActivity;
+import com.rba.firebaseauth.view.fragment.AddProductFragment;
 import com.rba.firebaseauth.view.fragment.ChangePasswordDialogFragment;
 import com.rba.firebaseauth.view.fragment.ProductFragment;
 
@@ -43,6 +43,9 @@ public class MainActivity extends BaseActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView =  navigationView.getHeaderView(0);
+        lblUserName = (TextView) headerView.findViewById(R.id.lblUserName);
+        lblUserEmail = (TextView) headerView.findViewById(R.id.lblUserEmail);
 
         setSupportActionBar(toolbar);
         toggle = new ActionBarDrawerToggle(
@@ -62,14 +65,8 @@ public class MainActivity extends BaseActivity
                     finish();
                 }else{
 
-                    Log.i("x- user", firebaseUser.getEmail()+" - "+firebaseUser.getDisplayName());
                     String name = firebaseUser.getDisplayName();
                     String email = firebaseUser.getEmail();
-
-
-                    View headerView =  navigationView.getHeaderView(0);
-                    lblUserName = (TextView) headerView.findViewById(R.id.lblUserName);
-                    lblUserEmail = (TextView) headerView.findViewById(R.id.lblUserEmail);
 
                     if(name!=null){
                         lblUserName.setText(name);
@@ -103,8 +100,12 @@ public class MainActivity extends BaseActivity
         String title = getString(R.string.app_name);
 
         switch (item.getItemId()){
-            case R.id.opHome:
+            case R.id.opProduct:
                 fragment = new ProductFragment();
+                title = getString(R.string.app_name);
+                break;
+            case R.id.opAddProduct:
+                fragment = new AddProductFragment();
                 title = getString(R.string.app_name);
                 break;
             case R.id.opLogout:
@@ -134,7 +135,6 @@ public class MainActivity extends BaseActivity
 
     private void logout() {
         firebaseAuth.signOut();
-        //finish();
     }
 
     @Override

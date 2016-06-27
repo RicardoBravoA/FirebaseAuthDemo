@@ -10,7 +10,6 @@ import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,7 +113,6 @@ public class RecoveryDialogFragment extends DialogFragment implements View.OnCli
             return false;
         }
 
-        Log.i("x- msge", ""+Util.validEmail(email));
         if(Util.validEmail(email)){
             tilEmail.setErrorEnabled(false);
         }else{

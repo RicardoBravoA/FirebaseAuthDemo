@@ -12,8 +12,10 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -71,6 +73,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tieEmail.addTextChangedListener(new CustomTextWatcher(tieEmail));
         tiePassword.addTextChangedListener(new CustomTextWatcher(tiePassword));
 
+        tiePassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_GO){
+                    btnLogin.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
     public boolean validEmail(){
@@ -83,7 +96,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             return false;
         }
 
-        Log.i("x- msge", ""+Util.validEmail(email));
         if(Util.validEmail(email)){
             tilEmail.setErrorEnabled(false);
         }else{
@@ -120,7 +132,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnLogin:
-                Log.i("x- msge", "login");
 
                 if(!validEmail()){
                     return;

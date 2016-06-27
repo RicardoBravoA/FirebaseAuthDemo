@@ -3,6 +3,9 @@
     <string name="create_account">Crear Cuenta</string>
     <string name="init_session">Iniciar Sesión</string>
     <string name="email">Email</string>
+    <string name="title">Título</string>
+    <string name="price">Precio</string>
+    <string name="image">Imagen</string>
     <string name="password">Contraseña</string>
     <string name="recovery_password">Olvidé mi Contraseña</string>
     <string name="login">Ingresar</string>
@@ -10,9 +13,11 @@
     <string name="msg_email">Ingrese Email</string>
     <string name="incorrect_email">Email incorrecto</string>
     <string name="msg_password">Ingrese Contraseña</string>
+    <string name="min_character">Mínimo 3 caracteres</string>
     <string name="min_password">Contraseña mínima de 6 caracteres</string>
     <string name="msg_invalid_login">Email y/o Contraseña incorrectos</string>
     <string name="msg_invalid_register">Error al registar</string>
+    <string name="msg_register">Registrado correctamente</string>
     <string name="send">Enviar</string>
     <string name="change">Cambiar</string>
     <string name="msg_error_email">Ocurrió un error</string>
@@ -24,11 +29,14 @@
 
     <string name="action_settings">Settings</string>
     <string name="menu_home">Inicio</string>
+    <string name="error_get_data">Error al obtener datos</string>
+    <string name="menu_add">Agregar Producto</string>
     <string name="menu_change_password">Cambiar Contraseña</string>
     <string name="success_change_password">Contraseña cambiada correctament</string>
     <string name="error_change_password">Error al Contraseña</string>
     <string name="send_email">Enviar email</string>
     <string name="menu_logout">Salir</string>
+    <string name="price_text">Precio: $ %1$s</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

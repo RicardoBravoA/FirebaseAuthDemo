@@ -3,9 +3,14 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/opHome"
+            android:id="@+id/opProduct"
             android:icon="@drawable/ic_home_plumb"
             android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/opAddProduct"
+            android:icon="@drawable/ic_add"
+            android:title="@string/menu_add" />
 
         <item
             android:id="@+id/opChangePassword"
