@@ -31,12 +31,16 @@
     <string name="menu_home">Inicio</string>
     <string name="error_get_data">Error al obtener datos</string>
     <string name="menu_add">Agregar Producto</string>
+    <string name="menu_upload">Subir imagen</string>
     <string name="menu_change_password">Cambiar Contraseña</string>
     <string name="success_change_password">Contraseña cambiada correctament</string>
     <string name="error_change_password">Error al Contraseña</string>
     <string name="send_email">Enviar email</string>
     <string name="menu_logout">Salir</string>
+    <string name="select">Seleccionar</string>
     <string name="price_text">Precio: $ %1$s</string>
+
+    <string name="msg_image">Esta app requiere permiso, para poder subir tus imagenes al servidor.</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

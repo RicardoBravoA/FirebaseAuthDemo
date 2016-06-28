@@ -22,6 +22,7 @@ import com.rba.firebaseauth.ui.base.BaseActivity;
 import com.rba.firebaseauth.view.fragment.AddProductFragment;
 import com.rba.firebaseauth.view.fragment.ChangePasswordDialogFragment;
 import com.rba.firebaseauth.view.fragment.ProductFragment;
+import com.rba.firebaseauth.view.fragment.UploadImage;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -106,6 +107,10 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.opAddProduct:
                 fragment = new AddProductFragment();
+                title = getString(R.string.app_name);
+                break;
+            case R.id.opUpload:
+                fragment = new UploadImage();
                 title = getString(R.string.app_name);
                 break;
             case R.id.opLogout:
